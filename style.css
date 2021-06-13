@@ -1,0 +1,109 @@
+/* 전체 */
+body {
+  background-color: #fffdf0;
+  color: #ffffff;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+article {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 시작화면 */
+.question {
+  display: none;
+}
+.main-title {
+  font-size: 14px;
+  color: #563018;
+}
+.sub-title {
+  font-size: 24px;
+  font-weight: 100;
+  color: #481d0a;
+
+}
+.updown-slash {
+  width: 166px;
+  margin: 0 auto;
+}
+.start-cover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-start {
+  font-size: 16px;
+  color:#ff7e81;
+  background-color: #1f1f1f;
+  border:#1f1f1f;
+}
+
+/* 문제 화면 */
+.btn-answer, .btn-answer:focus {
+  background-color: #825a36;
+  border:#825a36;
+  width: 288px;
+  margin: 0 auto;
+  font-size: 13px;
+  color: #ffffff;
+  outline: none;
+  box-shadow: none;   
+}
+.btn-answer:hover {  
+  background-color: #ff7e81;
+  border:#825a36;
+  width: 288px; 
+  margin: 0 auto; 
+  font-size: 13px; 
+  color: #ffffff;  
+}
+.progress-bar {
+  background-color: #ff7e81;
+}
+.progress {
+  background-color: #825a36;
+}
+.question-content {
+  font-size: 14px;
+  color: #ff4346;
+}
+.rectangle {
+  width: 288px;
+  height: 8px;
+  background-color: #825a36;
+  margin: 0 auto;
+}
+.mid-rectangle {
+  width: 288px;
+  height: 1px;
+  background-color: #383a43;
+  margin: 0 auto;
+}
+
+
+/* 결과 화면 */
+.result-message {
+  color: #ff7e81;
+  margin: 0 auto;
+  font-size: 24px;
+  font-weight: 100;
+}
+.result-cake {
+  font-size: 18px;
+  font-weight: 100;
+  color: #7e2308d7;
+}
+.result-explain {
+  font-size: 13px;
+  font-weight: normal;
+  color: #ff7e81;
+}
+.result {
+  display: none;
+}
+#img {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MBTI</title>    
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <link href="style.css" type="text/css" rel="stylesheet" />  
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+  </head>
+  <body class="container">
+
+    <article class="start">
+      <h1 class="main-title mt-5 text-center">내가 디저트라면</h1>  
+      <h2 class="sub-title mt-3 text-center">성격 유형 테스트</h1>
+      <div class="start-cover mt-3 mb-3">
+        <button type="button" class="btn-start btn btn-primary" onclick='start();'>테스트 시작하기</button>  
+      </div>
+    </article>
+
+    <article class="question">
+      <div class="progress mt-5">
+        <div
+          class="progress-bar"
+          role="progressbar"          
+          style="width: calc(100/12*1%)"  
+          aria-valuenow="25"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
+      <h2 id="title" class="question-content text-center mt-4 mb-4">문제</h2>
+      <input id="type" type="hidden" value="EI">      
+      <div class="rectangle mt-5"></div>
+      <button id="A" type="button" class="btn-answer btn btn-primary pt-5 pb-5">대답A</button>
+      <div class="mid-rectangle"></div>
+      <button id="B" type="button" class="btn-answer btn btn-primary pt-5 pb-5">대답B</button>
+      <div class="rectangle"></div>
+    </article>
+
+    <article class="result">
+      <img class="updown-slash mt-5" src="img/dark-slash.png" alt="dark-slash">
+      <span class="result-message mt-4 mb-4">나는 어떤 디저트 같은 사람일까?</span>
+      <img class="updown-slash" src="img/up-slash.png" alt="up-slash"> 
+      <img id="img" class="rounded-circle mt-5" src="img/lion.png" alt="cake">
+      <h2 id="cake" class="result-cake text-center mt-4 mb-4">동물이름</h2>
+      <img class="updown-slash" src="img/down-slash.png" alt="down-slash">
+      <h3 id="explain" class="result-explain text-center mt-4">설명</h3>
+      <div class="rectangle mt-4 mb-4"></div>
+    </article>
+
+    <input type="hidden" id="EI" value="0">
+    <input type="hidden" id="SN" value="0">
+    <input type="hidden" id="TF" value="0">
+    <input type="hidden" id="JP" value="0">
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      var num = 1; 
+      var q = {
+        1: {"title": "달달한게 먹고싶은데 어떡하지...친구들이나 카페나 갈까?", "type": "EI", "A": "카페는 역시 친구들과 수다떨며 놀고 먹어야지! 같이 갈 친구를 불러야지!", "B": "귀찮다.. 그냥 배달 시키거나 대충"},
+        2: {"title": "잠들기 전, 애인과 통화하면서 나는", "type": "SN", "A": "구체적으로 있었던 일을 얘기한다.", "B": " 오늘 느꼈던 큰 감정을 얘기한다.."},
+        3: {"title": "조별과제 진행 중 나의 의견이 팀원들과 다를 때 나는...", "type": "TF", "A": "내 생각과 논리가 맞다는 걸 증명해야 해!", "B": "내 의견이 상대방이 기분나쁘지 않게 전달해야 해!."},
+        4: {"title": "과제가 나왔을 때 내가 가장 먼저 할 일은?", "type": "JP", "A": "기한에 맞추기 위해 스케쥴링부터 한다.", "B": "일단 감을 잡기 위해 자료조사부터 한다."},
+        5: {"title": "약속이 없는 주말에 나는...", "type": "EI", "A": "단톡에 연락해서 친구들과 약속을 잡는다.", "B": "침대와 하루종일 물아일체가 된다."},
+        6: {"title": "친구의 생일이 다가왔다. 무슨 선물을 준비할까?", "type": "SN", "A": "친구에게 요즘 가장 필요할 것 같은 선물을 고른다.", "B": "실용성은 없어도 기억에 남을 선물을 고른다."},
+        7: {"title": "친구가 부모님께 꾸증을 들어서 우울해 한다.", "type": "TF", "A": "이건 이렇게 해봐! 라며 더 혼나지 않게 좋은 정보들을 전달해준다.", "B": "친구의 얘기를 들어주며 위로해준다."},
+        8: {"title": "친구와 해외여행 계획을 짜게 된 나는", "type": "JP", "A": " 비행기 표만 끊어두고 계획의 80%는 채워졌다고 생각한다.", "B": "할 거면 제대로! 일별로 세부 일정을 정리한다."},
+        9: {"title": "친구의 소개로 소개팅에 나온 나는...", "type": "EI", "A": "먼저 말 걸면서 분위기를 띄운다.", "B": "말을 걸어올 때까지 기다리고 본다."},
+        10: {"title": "배고픈 와준에 친구와 맛있어 보이는 식당을 발견한 나는..", "type": "SN", "A": "유명하고 리뷰도 많으니까 맛을 보장되어 있겠군.", "B": "간판에서 맛집의 기운이 느껴진다. 들어가자!"},
+        11: {"title": "기차 여행 중 옆자리에 마음에 드는 이상형이 있다. 어쩌다 대화를 시작한 나는", "type": "TF", "A": "이것저것 궁금한 것을 질문한다.", "B": "풍부한 공감과 리액션을 해준다."},
+        12: {"title": "미리 찾아보았던 맛집이 문을 닫았다. 나의 선택은?", "type": "JP", "A": "맛집을 다시 검색해서 찾아본다.", "B": "맛있어 보이는 옆 식당에 들어간다."
+}
+      }
+      var result = {
+        "ISTJ": {"cake": "단단하고 믿음직스러운 당신은... <strong>바게트빵</strong>", "explain": "바게트빵같은 당신! 매우 신뢰성이 있고, 현실적이며 실용적인 면을 갖고 있습니다. 어떠한 분량의 사실이라도 몰두하고 기억하며 이용하고 정확도에 매우 세심하죠.  위기 상황에 대처할 때에도 차분하며 안정되어 있어요. ", "img": "img/img1.jpg"},
+
+        "ISFJ": {"cake": "폭신폭신 부드러운 당신은... <strong>구름빵</strong>", "explain": "구름빵 같은 당신! 책임감이 강하고 온정적이며 헌신적이에요. 세부적이고 치밀함과 반복을 요구하는 일을 끝까지 해내는 인내력 또한 높아요. 이들이 가진 침착성과 인내력은 가정이나 집단에 안정감을 주는 힘이 있죠. 또한 다른 사람의 사정을 고려하며 자신과 타인의 감정 흐름에 민감한 편이에요. 일 처리에 있어 현실감각을 가지고 실제적이고 조직저으로 이행해요. 경험을 통해서 자신이 틀렸다고 인정하기까지 어떠한 난관이 있어도 꾸준히 밀고 나가지만, 온순하고 차분한 타입입니다.", "img": "img/img2.jpg"},
+
+        "INFJ": {"cake": "보기만 해도 든든한 당신은.. <strong>맘모스 빵</strong>", "explain": "맘모스빵같은 당신! 창의력과 통찰력이 뛰어나며 강한 직관력으로 진실된 의미와 관계를 추구합니다. 뛰어난 영감으로 말없이 타인에게 영향력을 끼치지도 해요. 독창성과 독립심이 강하며 뚜렷한 원리원칙으로 살아가고 있습니다. 또한 공공의 이익과 동료애를 중시하는 경향 덕분에 주변 사람들로부터 존경을 받는 경우가 많습니다. 열정과 신념으로 자신들이 믿는 영감을 구현 시켜 나가는 위대한 정신적 지도자들이 이 유형에서 많이 나왔죠. 남에게 강요하기보다 행동과 권유로 사람들의 마음을 움직여 따르게 만드는 지도력 있는 리더형이에요.", "img": "img/img3.png"},
+
+        "INTJ": {"cake": "겹겹이 쌓여 겉은 바삭 속은 푹신한 당신은 ... <strong>크루와상</strong>", "explain": "크루와상같은 당신! 행동과 사고에 있어 독창적이에요. 내적인 신념과 비전은 산이라도 움직일 만큼 강하죠. 때때로 어떤 문제에 대하여 아주 고집이 세며 자신이 가진 목적을 실현시키려는 의지와 결단력을 가지고 있습니다.자신과 타인의 능력을 중요시하며, 목적을 위하여 온 시간과 노력을 바쳐 일하는 타입이에요. 직관력과 통찰력이 활용되는 분야에서 능력을 발휘합니다. ", "img": "img/img4.jpg"},
+
+        "ISTP": {"cake": "겉보기엔 평범하지만 속은 꽉 찬 당신은... <strong>쿠키슈</strong>", 
+        "explain": "쿠키슈같은 당신! 조용하고 말이 없으며 논리적이고 분석적, 객관적으로 인생을 관찰하는 편이라고 합니다. 사실적인 정보를 조직하기 좋아하는 반면, 일과 관계되지 않는 이상 자신을 개방하지 않는 편이죠. 그래서 가까운  친구들 외에는 대체로 사람들과 어울리지 않는다고 해요. 하지만 일상생활에 있어는 매우 적응력이 강한 타입입니다.", "img": "img/img5.jpg"},
+
+        "ISFP": {"cake": "실은 누구보다 따뜻한 당신은.. <strong>호빵</strong>", "explain": "호빵같은 당신! 말보다는 행동으로 따뜻함을 나타내며, 마음이 따뜻하고 동정심이 많아요. 마치 양털 안감을 넣은 오버코트처럼 속마음이 포근한 사람들입니다. 그러나 상대를 잘 알게 될 때까지 이 따뜻함을 드러내지 않아 얼핏 보아서는 주위 사람들이 속마음을 모르고 지나갈 수 있습니다.", "img": "img/img6.jpg"},
+
+        "INFP": {"cake": "달디단 고명으로 가득 찬 당신은 ...<strong>호떡</strong>", "explain": "호떡같은 당신! 마음은 따듯하지만 조용한 편으로 상대방을 잘 알기 전에는 표현하지 않아요. 자신과 관계있는 사람 혹은 일에 대하여 매우 책임감을 느끼고 성실합니다. 자신이 지향하는 이상에 대해선 정열적인 신념을 지니고 있는 사람입니다.", "img": "img/img7.jpg"},
+
+        "INTP": {"cake": "깔끔하고 시원한 당신은...<strong>민트초콜릿</strong>", "explain": "민트 초콜릿 같은 당신! 조용하고 과묵하나 관심 있는 분야에 대해서는 말을 잘하는 편입니다. 사람들을 주심으로 한 가치보다는 아이디어에 관심이 많고, 매우 분석적이면서 논리적이어서  객관적 비평을 잘하죠. 일의 원리와 실체보다는 실체가 가지고 있는 가능성에 관심이 많습니다. 또 이해가 빠르고 높은 직관력으로 재능과 지적 관심이 풍부합니다. 개인적인 인간관계나 파티, 혹은 잡담 등에는 그래서인지 흥미가 별로 없어요. 한 번 어떤 생각에 몰입하면 주위에서 돌아가고 있는 일을 모를 때가 많습니다.", "img": "img/img8.jpg"},
+
+        "ESTP": {"cake": "투명하고 잘 스며드는 당신은 ... <strong>물방울떡</strong>", "explain": "물방울떡 같은 당신!관대하고 느긋하며 어떤 사람이나 사건에 대해서 별로 선입견을 갖지 않고 개방적입니다. 자신에게나 타인에게 있어 관용적이며, 있는 그대로 보고 받아들이죠. 그래서 갈등이나 긴장이 일어나는 상황을 잘 무마하는 능력이 있어요. 타협하고 적응하는 능력이 뛰어나요. 주의와 집중을 현재 상황에 맞추고, 현실을 있는그대로 보는 경향으로 인해 현실적으로 야기되는 문제 해결 능력이 뛰어납니다.", "img": "img/img9.png"},
+
+        "ESFP": {"cake": "호불호 없는 정직한 당신은... <strong>생크림 케이크</strong>", "explain": "생크림 케이크 같은 당신! 친절하고 수용적이며 현실적인 사람들이 많습니다. 어떤 상황에서도 잘 적응하며 타협적인 편이에요. 선입견이 별로 없고 개방적이고 관용적이어서 사람들을 잘 받아들입니다. 주위에서 진행되고 있는 일들을 알고자 열심히 참견하고 끼어들기도 합니다. 그래서인지 다른 사람의 일이나 선호하는 타입입니다.", "img": "img/img10.jpg"},
+
+        "ENFP": {"cake": "까고 까도 끝이 없는 당신은... <strong>크레이프 케이크</strong>", "explain": " 크레이프 케이크 같은 당신! 창의적이며 풍부한 상상력과 영감을 가지고 새로운 프로젝트를 시작하는 것을 즐기는 사람들이 많습니다. 충동적 에너지를 가지고 즉흥적으로 일을 재빠르게 해결하는 등 솔선수범 능력과 상상력이 뛰어나죠. 뛰어난 통찰력으로 사람의 발전 가능성을 들여다볼 수 있는 능력도 있답니다. 또한 관심이 있는 읽이면 무엇이든 척척 해내는 열성파이기도 합니다. 그 열성에 이끌려 사람들이 어떤 프로젝트에 흥미를 가지게끔 하기도 하며 다른 사람을 잘 도와주기도 합니다.", "img": "img/img11.jpg"},
+
+        "ENTP": {"cake": "어떤 토핑을 얹어 먹을까? 다양하게 즐길 수 있는 당신은 ... <strong>크레페</strong>", "explain": "크레페 같은 당신! 독창적인 현신가이며, 창의력이 풍부하고 항상 새로운 가능성을 찾고 시도하는 타입입니다. 넓은 안목을 가지고 다방면에 재능이 많아요. 풍부한 상상력과 어떤 프로젝트를 현실로 시도하려고 합니다. 민첩하고 여러 가지 일에 재능을 발휘해 자신감이 넘칩니다. 사람들의 동향에 대해 빠르고 박식한 편이며, 사람들을 판단하기보다는 이해하려고 노력해요.", "img": "img/img12.jpg"},
+
+        "ESTJ": {"cake": "달거면 화끈하게 달아야지요! 달달함으론 일등인 당신은 ... <strong>퐁당오쇼콜라 기린</strong>", "explain": "퐁당오쇼콜라같은 당신!활동적이며 행정적인 일과 장기 계획을 선호하는 편입니다. 그래서 사전 준비를 철저하게 계획하고 조직하여 체계적으로 목표를 추진하는 지도자들이 많죠. 논리적이고 분석적이며, 비능률적이거나 확실하지 않은 상황에 대해서는 별로 인내심이 없어요. 그러나 필요로 할 때는 강하게 대처합니다. 솔직하고 결정력과 통솔력이 있으며, 거시적 안목으로 일을 밀고 나가는 편이에요. 관념 자체에 집중하는 경향이 있으며관념 이면의 사람에게는 관심이 별로 없습니다.", "img": "img/img13.jpg"},
+
+        "ESFJ": {"cake": "바삭달달 기분이 좋아지는 당신은... <strong>쿠키</strong>", "explain": "쿠키같은 당신! 동정심과 동료애가 만흡니다. 친절하고 재치 넘치며 다른 사람들에게 관심을 쏟고 모임을 중요하게 여기죠. 양심적이고 정리 정돈도 잘하는 타입입니다. 참을성이 많고 다른 사람을  잘 도우며 다른 사람들의 지지를 받으며 일에 열중하곤 해요. 그렇기 때문에 다른 사람들의 무관심한 태도에 민감한 모습을 보입니다.", "img": "img/img14.jpg"},
+
+        "ENFJ": {"cake": "먹으면 마음이 포근해지는 당신은... <strong>사과파이</strong>", "explain": "주어진 목표를 이루기 위해 모두가 함께 성장해나가길 원하는 페이스메이커 <strong>고릴라</strong>", "explain": "사과파이같은 당신! 동정심과 동료애가 많으며 친절하고 재치 있는 사람이다. 민첩하면서 참을성도 많고 성실해요. 사람들과에 친화를 중요시하며 다른 사람들의 의견을 존중하고 가치 있게 여깁니다. 공동의 평화를 위해 대체로 상대방의 의견에 동의하는 경향도 있습니다. 새로운 아이디어에 대한 호기심이 많으며 쓰기보다는 말로써 생각을 잘 표현하는 타입이에요. 편안하고 능수능란하게 계획을 제시하거나 조직을 이끌어 가는 능력을 갖추고 있습니다.", "img": "img/img15.jpg"},
+        
+        "ENTJ": {"cake": "겹겹이 모여 견고한 당신은... <strong>바움쿠헨</strong>", "explain": " 바움쿠헨 같은 당신! 활동적이며 행정적인 일과 장기 계획을 선호하는 편입니다. 그래서 사전 준비를 철저하게 계획하고 조직하여 체계적으로 목표를 추진하는 지도자들이 많죠. 논리적이고 분석적이며, 비능률적이거나 확실하지 않은 상황에 대해서는 별로 인내심이 없어요. 그러나 필요로 할 때에는 강하게 대처합니다. 솔직하고 결정력과 통솔력이 있으며, 거시적 안목으로 일을 밀고 나가는 편이에요.", "img": "img/img16.jpg"}
+      }
+      function start() {
+        $(".start").hide();
+        $(".question").show();
+        next();
+      }
+
+      $("#A").click(function() {
+        var type = $("#type").val();        
+        var preValue = $("#"+type).val(); 
+        $("#"+type).val(parseInt(preValue)+1);
+        next();
+      })
+
+      $("#B").click(function() {             
+        next();
+      })
+
+      function next() {
+        if (num == 13) {
+          $(".question").hide();
+          $(".result").show();          
+          var mbti = "";
+          ($("#EI").val() < 2) ? mbti+="I" : mbti+="E";
+          ($("#SN").val() < 2) ? mbti+="N" : mbti+="S";
+          ($("#TF").val() < 2) ? mbti+="F" : mbti+="T";
+          ($("#JP").val() < 2) ? mbti+="P" : mbti+="J";
+          // alert(mbti);
+          $("#img").attr("src", result[mbti]["img"]);
+          $("#cake").html(result[mbti]["cake"]);
+          $("#explain").html(result[mbti]["explain"]);
+        } else {          
+          $(".progress-bar").attr('style', 'width: calc(100/12*'+num+'%)' );
+          $("#title").html(q[num]["title"]);
+          $("#type").val(q[num]["type"]);
+          $("#A").html(q[num]["A"]);
+          $("#B").html(q[num]["B"]);          
+          num++;
+        }        
+      }
+    </script>
+  </body>
+</html>
